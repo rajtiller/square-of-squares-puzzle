@@ -36,6 +36,26 @@ function App() {
     });
   };
 
+  const handlePlacedSquareDragStart = (
+    square: Square,
+    e: React.DragEvent<HTMLDivElement>
+  ) => {
+    // Set the dragged square FIRST before removing it
+    setDraggedSquare(square);
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+
+    // Then remove it from the grid
+    // Use setTimeout to ensure state updates in the right order
+    setTimeout(() => {
+      removeSquare(square.id);
+    }, 0);
+  };
+
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
@@ -63,6 +83,22 @@ function App() {
     setDraggedSquare(null);
   };
 
+  const handleDropOnBank = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (!draggedSquare) return;
+
+    // Just clear the dragged square - it's already removed from the grid
+    setDraggedSquare(null);
+  };
+
+  const handleDragEnd = () => {
+    // If drag ends without a valid drop, restore the square if it was placed
+    if (draggedSquare && draggedSquare.placed && draggedSquare.x >= 0) {
+      placeSquare(draggedSquare.id, draggedSquare.x, draggedSquare.y);
+    }
+    setDraggedSquare(null);
+  };
+
   return (
     <div className="app">
       <h1>Square of Squares Puzzle</h1>
@@ -79,6 +115,8 @@ function App() {
           squares={squares}
           cellSize={CELL_SIZE}
           onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDrop={handleDropOnBank}
         />
 
         <PuzzleGrid
@@ -87,7 +125,8 @@ function App() {
           squares={squares}
           onDragOver={handleDragOver}
           onDrop={handleDropOnGrid}
-          onSquareClick={removeSquare}
+          onPlacedSquareDragStart={handlePlacedSquareDragStart}
+          onDragEnd={handleDragEnd}
         />
       </div>
     </div>

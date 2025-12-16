@@ -7,7 +7,11 @@ interface PuzzleGridProps {
   squares: Square[];
   onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
   onDrop: (e: React.DragEvent<HTMLDivElement>) => void;
-  onSquareClick: (squareId: string) => void;
+  onPlacedSquareDragStart: (
+    square: Square,
+    e: React.DragEvent<HTMLDivElement>
+  ) => void;
+  onDragEnd: () => void;
 }
 
 export const PuzzleGrid = ({
@@ -16,7 +20,8 @@ export const PuzzleGrid = ({
   squares,
   onDragOver,
   onDrop,
-  onSquareClick,
+  onPlacedSquareDragStart,
+  onDragEnd,
 }: PuzzleGridProps) => {
   const placedSquares = squares.filter((sq) => sq.placed);
 
@@ -55,7 +60,8 @@ export const PuzzleGrid = ({
             key={square.id}
             square={square}
             cellSize={cellSize}
-            onClick={() => onSquareClick(square.id)}
+            onDragStart={onPlacedSquareDragStart}
+            onDragEnd={onDragEnd}
           />
         ))}
       </div>

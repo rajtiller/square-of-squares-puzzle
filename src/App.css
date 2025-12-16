@@ -142,7 +142,6 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  cursor: pointer;
   border: none;
   border-radius: 0;
   user-select: none;
@@ -151,6 +150,10 @@
 
 .placed-square:hover {
   opacity: 0.8;
+}
+
+.placed-square:active {
+  cursor: grabbing;
 }
 
 h1 {
