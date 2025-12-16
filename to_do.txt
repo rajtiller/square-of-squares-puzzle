@@ -1,6 +1,7 @@
 To-Do
 -----------
-Move things into new files
 Remove any border around the squares
 Make the target grid bigger
 Make the labels at the top not white
+Make it so placeed squares can be moved
+Make it so selected sqaures are a different color

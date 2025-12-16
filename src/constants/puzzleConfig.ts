@@ -1,6 +1,6 @@
 import type { MaxSize } from "../types/Square";
 
-export const CELL_SIZE = 15;
+export const CELL_SIZE = 20; // Increased from 15 to 20
 
 export const GRID_SIZES: Record<MaxSize, number> = {
   8: 36,
