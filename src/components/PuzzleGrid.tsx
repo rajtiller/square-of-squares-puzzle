@@ -2,12 +2,15 @@ import type { Square } from "../types/Square";
 import { PlacedSquare } from "./PlacedSquare";
 import { getSquareColor } from "../utils/squareUtils";
 
+const DRAG_SCALE = 0.7;
+
 interface PuzzleGridProps {
   gridSize: number;
   cellSize: number;
   squares: Square[];
   draggedSquare: Square | null;
   hoverPosition: { x: number; y: number } | null;
+  isLegalPosition: boolean;
   onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
   onDragLeave: () => void;
   onDrop: (e: React.DragEvent<HTMLDivElement>) => void;
@@ -24,6 +27,7 @@ export const PuzzleGrid = ({
   squares,
   draggedSquare,
   hoverPosition,
+  isLegalPosition,
   onDragOver,
   onDragLeave,
   onDrop,
@@ -73,12 +77,32 @@ export const PuzzleGrid = ({
               top: hoverPosition.y * cellSize,
               width: draggedSquare.size * cellSize,
               height: draggedSquare.size * cellSize,
-              backgroundColor: getSquareColor(draggedSquare.size),
-              opacity: 0.4,
+              backgroundColor: isLegalPosition
+                ? getSquareColor(draggedSquare.size)
+                : "#ff4444",
               pointerEvents: "none",
-              border: "2px dashed #333",
+              border: isLegalPosition
+                ? "2px dashed #333"
+                : "2px dashed #ff0000",
+              boxSizing: "border-box",
             }}
-          />
+          >
+            {/* Inner square at 70% centered */}
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                width: `${draggedSquare.size * cellSize * DRAG_SCALE}px`,
+                height: `${draggedSquare.size * cellSize * DRAG_SCALE}px`,
+                backgroundColor: isLegalPosition
+                  ? getSquareColor(draggedSquare.size)
+                  : "#ff4444",
+                opacity: 0.8,
+              }}
+            />
+          </div>
         )}
 
         {placedSquares.map((square) => (

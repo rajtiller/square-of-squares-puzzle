@@ -4,6 +4,7 @@ import { SquareItem } from "./SquareItem";
 interface SquareBankProps {
   squares: Square[];
   cellSize: number;
+  draggedSquareId?: string;
   onDragStart: (square: Square, e: React.DragEvent<HTMLDivElement>) => void;
   onDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
@@ -12,6 +13,7 @@ interface SquareBankProps {
 export const SquareBank = ({
   squares,
   cellSize,
+  draggedSquareId,
   onDragStart,
   onDrop,
   onDragOver,
@@ -27,6 +29,7 @@ export const SquareBank = ({
             key={square.id}
             square={square}
             cellSize={cellSize}
+            isDragging={draggedSquareId === square.id}
             onDragStart={onDragStart}
           />
         ))}

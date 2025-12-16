@@ -44,3 +44,30 @@ export const calculateSnapPosition = (
 
   return { x: boundedX, y: boundedY };
 };
+
+export const isPositionLegal = (
+  position: { x: number; y: number },
+  square: Square,
+  placedSquares: Square[]
+): boolean => {
+  // Check if the square would overlap with any placed squares
+  for (const placed of placedSquares) {
+    // Skip checking against itself
+    if (placed.id === square.id) continue;
+
+    // Check if rectangles overlap
+    const noOverlapX =
+      position.x + square.size <= placed.x ||
+      position.x >= placed.x + placed.size;
+    const noOverlapY =
+      position.y + square.size <= placed.y ||
+      position.y >= placed.y + placed.size;
+
+    // If there's overlap in both dimensions, position is illegal
+    if (!noOverlapX && !noOverlapY) {
+      return false;
+    }
+  }
+
+  return true;
+};

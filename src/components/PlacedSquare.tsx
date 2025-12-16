@@ -16,6 +16,23 @@ export const PlacedSquare = ({
 }: PlacedSquareProps) => {
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     e.stopPropagation();
+
+    // Create a custom drag image at 70% size
+    const dragImg = e.currentTarget.cloneNode(true) as HTMLElement;
+    dragImg.style.width = `${square.size * cellSize * 0.7}px`;
+    dragImg.style.height = `${square.size * cellSize * 0.7}px`;
+    dragImg.style.position = "absolute";
+    dragImg.style.top = "-1000px";
+    document.body.appendChild(dragImg);
+
+    e.dataTransfer.setDragImage(
+      dragImg,
+      (square.size * cellSize * 0.7) / 2,
+      (square.size * cellSize * 0.7) / 2
+    );
+
+    setTimeout(() => document.body.removeChild(dragImg), 0);
+
     onDragStart(square, e);
   };
 

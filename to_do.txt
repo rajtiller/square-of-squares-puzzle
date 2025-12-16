@@ -1,5 +1,10 @@
 To-Do
 -----------
-Make it so selected sqaures are a different color
 For available squares, either offset them or just show how many there are
 make it so there's no scrolling necessary
+
+center a square's projection around the square (i.e. they have the same center)
+make squares shrink on click
+make it so projections only ever go on legal positions
+make it so if you clikc on swaure in the reserve, it rnadomly puts it in a vlid position if one exists
+when a square in the reserve is being dragged, remove it from the reserve display
