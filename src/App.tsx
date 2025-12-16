@@ -50,15 +50,6 @@ function App() {
       />
 
       <div className="puzzle-container">
-        <SquareBank
-          squares={squares}
-          cellSize={CELL_SIZE}
-          draggedSquareId={draggedSquare?.id}
-          onDragStart={handleDragStart}
-          onDragOver={handleDragOver}
-          onDrop={handleDropOnBank}
-        />
-
         <PuzzleGrid
           gridSize={gridSize}
           cellSize={CELL_SIZE}
@@ -71,6 +62,15 @@ function App() {
           onDrop={handleDropOnGrid}
           onPlacedSquareDragStart={handlePlacedSquareDragStart}
           onDragEnd={() => handleDragEnd(draggedSquare)}
+        />
+
+        <SquareBank
+          squares={squares}
+          cellSize={CELL_SIZE}
+          draggedSquareId={draggedSquare?.id}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDrop={handleDropOnBank}
         />
       </div>
     </div>

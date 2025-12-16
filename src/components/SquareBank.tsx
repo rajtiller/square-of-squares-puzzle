@@ -57,21 +57,35 @@ export const SquareBank = ({
   };
 
   return (
-    <div className="square-bank">
-      <h3>Available Squares</h3>
-      <div className="squares-list" onDragOver={onDragOver} onDrop={onDrop}>
+    <div className="square-bank" onDragOver={onDragOver} onDrop={onDrop}>
+      <h3>Reserve</h3>
+      <div className="squares-grid">
         {sortedSizes.length === 0 ? (
-          <div className="no-squares">All squares placed!</div>
+          <div className="no-squares">✓ Complete!</div>
         ) : (
-          sortedSizes.map((size) => {
+          sortedSizes.map((size, index) => {
             // Get one example square of this size for dragging
             const exampleSquare = availableSquares.find(
               (sq) => sq.size === size
             );
             if (!exampleSquare) return null;
 
+            const count = squareCounts.get(size) || 0;
+
             return (
-              <div key={size} className="square-count-item">
+              <div
+                key={size}
+                className="square-reserve-item"
+                style={
+                  {
+                    "--index": index,
+                    "--total": sortedSizes.length,
+                  } as React.CSSProperties & {
+                    "--index": number;
+                    "--total": number;
+                  }
+                }
+              >
                 <div
                   className="square-item"
                   draggable
@@ -84,7 +98,7 @@ export const SquareBank = ({
                 >
                   {size}×{size}
                 </div>
-                <div className="square-badge">{squareCounts.get(size)}</div>
+                {count > 1 && <div className="square-badge">{count}</div>}
               </div>
             );
           })
