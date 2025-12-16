@@ -1,11 +1,15 @@
 import type { Square } from "../types/Square";
 import { PlacedSquare } from "./PlacedSquare";
+import { getSquareColor } from "../utils/squareUtils";
 
 interface PuzzleGridProps {
   gridSize: number;
   cellSize: number;
   squares: Square[];
+  draggedSquare: Square | null;
+  hoverPosition: { x: number; y: number } | null;
   onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+  onDragLeave: () => void;
   onDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   onPlacedSquareDragStart: (
     square: Square,
@@ -18,7 +22,10 @@ export const PuzzleGrid = ({
   gridSize,
   cellSize,
   squares,
+  draggedSquare,
+  hoverPosition,
   onDragOver,
+  onDragLeave,
   onDrop,
   onPlacedSquareDragStart,
   onDragEnd,
@@ -53,8 +60,27 @@ export const PuzzleGrid = ({
           `,
         }}
         onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
         onDrop={onDrop}
       >
+        {/* Hover preview */}
+        {draggedSquare && hoverPosition && (
+          <div
+            className="hover-preview"
+            style={{
+              position: "absolute",
+              left: hoverPosition.x * cellSize,
+              top: hoverPosition.y * cellSize,
+              width: draggedSquare.size * cellSize,
+              height: draggedSquare.size * cellSize,
+              backgroundColor: getSquareColor(draggedSquare.size),
+              opacity: 0.4,
+              pointerEvents: "none",
+              border: "2px dashed #333",
+            }}
+          />
+        )}
+
         {placedSquares.map((square) => (
           <PlacedSquare
             key={square.id}

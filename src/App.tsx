@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Controls } from "./components/Controls";
 import { SquareBank } from "./components/SquareBank";
 import { PuzzleGrid } from "./components/PuzzleGrid";
@@ -20,6 +21,11 @@ function App() {
     resetPuzzle,
     toggleMode,
   } = usePuzzle(8);
+
+  const [hoverPosition, setHoverPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   const gridSize = getGridSize(maxSize);
 
@@ -58,6 +64,29 @@ function App() {
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
+
+    if (!draggedSquare) return;
+
+    const gridElement = e.currentTarget;
+    const rect = gridElement.getBoundingClientRect();
+
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const { x, y } = calculateSnapPosition(
+      mouseX,
+      mouseY,
+      dragOffset,
+      CELL_SIZE,
+      draggedSquare.size,
+      gridSize
+    );
+
+    setHoverPosition({ x, y });
+  };
+
+  const handleDragLeave = () => {
+    setHoverPosition(null);
   };
 
   const handleDropOnGrid = (e: React.DragEvent<HTMLDivElement>) => {
@@ -81,6 +110,7 @@ function App() {
 
     placeSquare(draggedSquare.id, x, y);
     setDraggedSquare(null);
+    setHoverPosition(null);
   };
 
   const handleDropOnBank = (e: React.DragEvent<HTMLDivElement>) => {
@@ -89,6 +119,7 @@ function App() {
 
     // Just clear the dragged square - it's already removed from the grid
     setDraggedSquare(null);
+    setHoverPosition(null);
   };
 
   const handleDragEnd = () => {
@@ -97,6 +128,7 @@ function App() {
       placeSquare(draggedSquare.id, draggedSquare.x, draggedSquare.y);
     }
     setDraggedSquare(null);
+    setHoverPosition(null);
   };
 
   return (
@@ -123,7 +155,10 @@ function App() {
           gridSize={gridSize}
           cellSize={CELL_SIZE}
           squares={squares}
+          draggedSquare={draggedSquare}
+          hoverPosition={hoverPosition}
           onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
           onDrop={handleDropOnGrid}
           onPlacedSquareDragStart={handlePlacedSquareDragStart}
           onDragEnd={handleDragEnd}

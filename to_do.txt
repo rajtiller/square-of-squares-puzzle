@@ -1,7 +1,5 @@
 To-Do
 -----------
-Make it so placeed squares can be moved
 Make it so selected sqaures are a different color
 For available squares, either offset them or just show how many there are
-highlight the grid cells when a square is being dragged over them
 make it so there's no scrolling necessary
