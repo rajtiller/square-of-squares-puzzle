@@ -1,0 +1,6 @@
+To-Do
+-----------
+Move things into new files
+Remove any border around the squares
+Make the target grid bigger
+Make the labels at the top not white
