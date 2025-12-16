@@ -3,8 +3,6 @@ import type { Square } from "../types/Square";
 import { CELL_SIZE } from "../constants/puzzleConfig";
 import { isPositionLegal } from "../utils/squareUtils";
 
-const DRAG_SCALE = 0.7;
-
 interface UseDragHandlerProps {
   gridSize: number;
   placedSquares: Square[];
@@ -25,6 +23,7 @@ export const useDragHandler = ({
     y: number;
   } | null>(null);
   const [isLegalPosition, setIsLegalPosition] = useState(true);
+  const [wasPlaced, setWasPlaced] = useState(false);
 
   const calculateDragOffset = (
     e: React.DragEvent<HTMLDivElement>,
@@ -48,6 +47,7 @@ export const useDragHandler = ({
   ) => {
     setDraggedSquare(square);
     setDragOffset(calculateDragOffset(e, square));
+    setWasPlaced(false);
   };
 
   const handlePlacedSquareDragStart = (
@@ -56,6 +56,7 @@ export const useDragHandler = ({
   ) => {
     setDraggedSquare(square);
     setDragOffset(calculateDragOffset(e, square));
+    setWasPlaced(true);
 
     setTimeout(() => {
       onRemoveSquare(square.id);
@@ -111,16 +112,15 @@ export const useDragHandler = ({
     e.preventDefault();
     if (!draggedSquare || !hoverPosition) return;
 
-    // Only place if position is legal, otherwise return to reserve
+    // Only place if position is legal
     if (isLegalPosition) {
       onPlaceSquare(draggedSquare.id, hoverPosition.x, hoverPosition.y);
-    } else {
-      // Return to reserve (already removed if it was placed)
     }
 
     setDraggedSquare(null);
     setHoverPosition(null);
     setIsLegalPosition(true);
+    setWasPlaced(false);
   };
 
   const handleDropOnBank = (e: React.DragEvent<HTMLDivElement>) => {
@@ -130,10 +130,12 @@ export const useDragHandler = ({
     setDraggedSquare(null);
     setHoverPosition(null);
     setIsLegalPosition(true);
+    setWasPlaced(false);
   };
 
   const handleDragEnd = (draggedSquareState: Square | null) => {
     if (
+      wasPlaced &&
       draggedSquareState &&
       draggedSquareState.placed &&
       draggedSquareState.x >= 0
@@ -147,6 +149,7 @@ export const useDragHandler = ({
     setDraggedSquare(null);
     setHoverPosition(null);
     setIsLegalPosition(true);
+    setWasPlaced(false);
   };
 
   return {

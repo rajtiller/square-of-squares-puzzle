@@ -87,18 +87,24 @@
 }
 
 .square-bank {
-  flex: 0 0 400px;
+  flex: 0 0 auto;
+  min-width: 300px;
 }
 
 .squares-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 1rem;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
   border: 2px dashed #666;
   border-radius: 8px;
-  min-height: 300px;
-  align-content: flex-start;
+  min-height: auto;
+  align-items: center;
+}
+
+.square-count-item {
+  position: relative;
+  display: inline-block;
 }
 
 .square-item {
@@ -119,6 +125,30 @@
 
 .square-item:active {
   cursor: grabbing;
+}
+
+.square-badge {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.no-squares {
+  color: #666;
+  font-style: italic;
+  padding: 2rem;
+  width: 100%;
 }
 
 .grid-container {

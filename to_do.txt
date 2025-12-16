@@ -8,3 +8,4 @@ make squares shrink on click
 make it so projections only ever go on legal positions
 make it so if you clikc on swaure in the reserve, it rnadomly puts it in a vlid position if one exists
 when a square in the reserve is being dragged, remove it from the reserve display
+don't give squares a shadown unless at least half of it is in the grid
