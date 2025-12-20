@@ -47,21 +47,10 @@ export const PuzzleGrid = ({
           width: gridSize * cellSize,
           height: gridSize * cellSize,
           backgroundImage: `
-            repeating-linear-gradient(
-              0deg,
-              #ddd 0px,
-              #ddd 1px,
-              transparent 1px,
-              transparent ${cellSize}px
-            ),
-            repeating-linear-gradient(
-              90deg,
-              #ddd 0px,
-              #ddd 1px,
-              transparent 1px,
-              transparent ${cellSize}px
-            )
+            linear-gradient(to right, #ddd 1px, transparent 1px),
+            linear-gradient(to bottom, #ddd 1px, transparent 1px)
           `,
+          backgroundSize: `${cellSize}px ${cellSize}px`,
         }}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}

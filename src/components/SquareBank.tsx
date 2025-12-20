@@ -61,7 +61,7 @@ export const SquareBank = ({
       <h3>Reserve</h3>
       <div className="squares-grid">
         {sortedSizes.length === 0 ? (
-          <div className="no-squares">✓ Complete!</div>
+          <div className="no-squares">✓</div>
         ) : (
           sortedSizes.map((size, index) => {
             // Get one example square of this size for dragging
@@ -98,7 +98,6 @@ export const SquareBank = ({
                 >
                   {size}×{size}
                 </div>
-                {count > 1 && <div className="square-badge">{count}</div>}
               </div>
             );
           })
